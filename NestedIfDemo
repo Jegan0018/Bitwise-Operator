@@ -1,0 +1,22 @@
+import java.util.Scanner;
+
+public class NestedIfDemo {
+	public static void main(String[] args) {
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("Enter Batman Score : ");
+		int score = scanner.nextInt();
+		if (score > 10 ) {
+			if (score >= 30) {
+				if (score >= 50) {
+					if (score >= 100) {
+						System.out.println("Batsman Scored Century");
+					} else
+						System.out.println("Batsman Missed His Century By "+(100-score)+" Runs");
+				} else
+					System.out.println("Batsman Missed His Half Century By "+(50-score)+" Runs");
+			} else
+				System.out.println("Batsman Scored Below 30");
+		} else
+			System.out.println("Batsman Scored Single Digit Score");
+	}
+}
