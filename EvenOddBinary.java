@@ -6,7 +6,7 @@ public class EvenOddBinary {
 	public static void main(String[] args) {
 		int x;
 		Scanner sc = new Scanner(System.in);
-		a = sc.nextInt();
+		x = sc.nextInt();
 		if((x & 1) == 0){
 		    System.out.println("Number is even");
 		}
