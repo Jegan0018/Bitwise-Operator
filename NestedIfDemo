@@ -3,7 +3,7 @@ import java.util.Scanner;
 public class NestedIfDemo {
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);
-		System.out.println("Enter Batman Score : ");
+		System.out.println("Enter Batsman Score : ");
 		int score = scanner.nextInt();
 		if (score > 10 ) {
 			if (score >= 30) {
