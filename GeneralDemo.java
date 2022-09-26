@@ -1,10 +1,16 @@
 package Practice;
 
-interface Base {
-	void println();
+class Base {
+	public void print() {
+		  println();
+	}
+
+	public void println() {
+		System.out.println("Base Class");
+	}
 }
 
-class Derived implements Base {
+class Derived extends Base {
 	public void println() {
 		System.out.println("println");
 	}
@@ -13,6 +19,6 @@ class Derived implements Base {
 public class GeneralDemo {
 	public static void main(String[] args) {
 		Base object = new Derived();
-		object.println();
+		object.print();
 	}
 }
