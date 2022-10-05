@@ -1,10 +1,6 @@
 package EmployeeTask;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.util.Scanner;
-import java.util.regex.Pattern;
-import Database.DatabaseConnection;
 
 public class EmployeeTaskDetails {
 	public static void main(String[] args) {
@@ -24,26 +20,34 @@ public class EmployeeTaskDetails {
 	private void displayInfo() {
 		Scanner scanner = new Scanner(System.in);
 		int input;
-		do {
-			menu();
-			input = scanner.nextInt();
-			switch (input) {
-			case 1:
-				new EmployeeRegister().employeeRegister();
-				break;
-			case 2:
-				new TaskStatus().taskStatus();
-				break;
-			case 3:
-				new AssignTask().assignTask();
-				break;
-			case 4:
-				new RemoveTask().removeTask();
-				break;
-			default:
-				System.out.println("***Please Enter Valid Number***");
-			}
-		} while (input != 5);
-
+		try {
+			do {
+				menu();
+				System.out.println("Please Enter The Option : ");
+				input = scanner.nextInt();
+				switch (input) {
+				case 1:
+					new EmployeeRegister().employeeRegister();
+					break;
+				case 2:
+					new TaskStatus().taskStatus();
+					break;
+				case 3:
+					new AssignTask().assignTask();
+					break;
+				case 4:
+					new RemoveTask().removeTask();
+					break;
+				case 5:
+					System.out.println("Exitted Succesfully");
+					break;
+				default:
+					System.err.println("***Please Enter Valid Number***");
+				}
+			} while (input != 5);
+		} catch (Exception e) {
+			System.err.println("***Please Enter Valid Number***");
+			displayInfo();
+		}
 	}
 }
