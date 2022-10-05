@@ -11,25 +11,25 @@ public class EmployeeRegister {
 	public void employeeRegister() {
 		while(true) {
 			Scanner scanner = new Scanner(System.in);
-			System.out.println("Enter Employee Name");
+			System.out.println("Enter Employee Name:");
 			String empName = scanner.nextLine();
 			Pattern namePattern = Pattern.compile("[a-zA-Z\\s,]+");
 			if (!namePattern.matcher(empName).matches()) {
-				System.out.println("***Invalid String***");
+				System.err.println("***Invalid String***");
 				break;
 			}
-			System.out.println("Enter Employee Date Of Birth");
+			System.out.println("Enter Employee Date Of Birth(Format:dd-mm-yyyy):");
 			String dateOfBirth = scanner.nextLine();
 			Pattern dateOfBirthPattern = Pattern.compile("^\\d{2}-\\d{2}-\\d{4}$");
 			if (!dateOfBirthPattern.matcher(dateOfBirth).matches()) {
-				System.out.println("Invalid Date Format");
+				System.err.println("***Invalid Date Format***");
 				break;
 			}
-			System.out.println("Enter Employee Contact Number");
+			System.out.println("Enter Employee Contact Number:");
 			String contactNumber = scanner.nextLine();
 			Pattern contactPattern = Pattern.compile("^\\d{10}$");
 			if (!contactPattern.matcher(contactNumber).matches()) {
-				System.out.println("***Invalid Contact Number***");
+				System.err.println("***Invalid Contact Number***");
 				break;
 			}
 
