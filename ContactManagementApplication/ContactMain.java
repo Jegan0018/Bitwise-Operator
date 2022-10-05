@@ -24,6 +24,7 @@ public class ContactMain {
 		try {
 			do {
 				menu();
+				System.out.println("Please Select One Option : ");
 				input = scanner.nextInt();
 				switch (input) {
 				case 1:
@@ -41,12 +42,16 @@ public class ContactMain {
 				case 5:
 					new SearchContact().searchContact();
 					break;
+				case 6:
+					System.out.println("Exitted Successfully...");
+					break;
 				default:
-					System.out.println("***Please Enter Valid Number***");
+					System.err.println("***Please Enter Valid Number***");
 				}
 			} while (input != 6);
 		} catch (Exception e) {
 			System.err.println("***Please Enter Valid Number***");
+			displayInfo();
 		}
 	}
 }
