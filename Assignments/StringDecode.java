@@ -13,7 +13,7 @@ public class StringDecode {
 		String word = scanner.nextLine();
 		String temp = "", result = "";
 		for (int i = 0; i < word.length(); i++) {
-			if (word.charAt(i) >= '1' && word.charAt(i) <= '9') {
+			if (word.charAt(i) >= '0' && word.charAt(i) <= '9') {
 				result = temp;
 				for (int j = 0; j < word.charAt(i) - 48; j++) {
 					result += temp;
