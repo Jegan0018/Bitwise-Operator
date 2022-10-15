@@ -22,29 +22,29 @@ public class ArrayWeight {
 		int limit = scanner.nextInt();
 		int count = 0, sum = 0;
 		Arrays.sort(temp);
-		int[] array=new int[temp.length];
-		int m=0;
-		for(int j=temp.length-1;j>=0;j--) {
-			array[m++]=temp[j];
+		int[] array = new int[temp.length];
+		int tempIndex = 0;
+		for (int index = temp.length - 1; index >= 0; index--) {
+			array[tempIndex++] = temp[index];
 		}
-		int i=0,j=array.length-1;
+		int startIndex = 0, endIndex = array.length - 1;
 		int visited = 0;
-		while(i<j) {
-			if(array[i]+array[j]<=limit) {
-				array[j] += array[i];
-				array[i] = visited;
-				i++;
-				j--;
+		while (startIndex < endIndex) {
+			if (array[startIndex] + array[endIndex] <= limit) {
+				array[endIndex] += array[startIndex];
+				array[startIndex] = visited;
+				startIndex++;
+				endIndex--;
+			} else {
+				startIndex++;
 			}
-			else {
-				i++;
+
+		}
+		for (int index = 0; index < array.length; index++) {
+			if (array[index] != visited) {
+				count++;
 			}
 		}
-	for(int k=0;k<array.length;k++) {
-		if(array[k]!=visited) {
-			count++;
-		}
+		System.out.println(count);
 	}
-	System.out.println(count);
-}
 }
