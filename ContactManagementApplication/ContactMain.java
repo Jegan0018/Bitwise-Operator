@@ -1,8 +1,10 @@
 package ContactApplication;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ContactMain {
+	static ArrayList<ContactFields> arrayList = new ArrayList<ContactFields>();
 	public static void main(String[] args) {
 		ContactMain contact = new ContactMain();
 		contact.displayInfo();
@@ -28,13 +30,13 @@ public class ContactMain {
 				input = scanner.nextInt();
 				switch (input) {
 				case 1:
-					new AddContact().addContact();
+					new AddContact().addContact(arrayList);
 					break;
 				case 2:
-					new ListContacts().listContacts();
+					new ListContacts().listContacts(arrayList);
 					break;
 				case 3:
-					new EditContact().editContact();
+					new EditContact().editContact(arrayList);
 					break;
 				case 4:
 					new DeleteContact().deleteContact();
