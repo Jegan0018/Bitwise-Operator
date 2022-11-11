@@ -1,58 +1,78 @@
 package ContactApplication;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 import Database.DatabaseConnection;
 
 public class EditContact {
-	public void editContact() {
-		edit();
-	}
-
-	private void edit() {
+	public void editContact(ArrayList<ContactFields> arrayList) {
+		String name,contactNumber,mailId;
+		boolean flag;
 		Scanner scanner = new Scanner(System.in);
-		System.out.println("Please Enter the Id you want to Update");
-		int id = 0;
-		try {
-			id = scanner.nextInt();
-		} catch (Exception e) {
-			System.err.println("***Enter Proper Id***");
-			edit();
-		}
-		scanner.nextLine();
-		System.out.println("Please Enter the Name");
-		String name = scanner.nextLine();
-		Pattern pattern1 = Pattern.compile("[a-zA-Z\\s,]+");
-		if (!pattern1.matcher(name).matches()) {
-			System.err.println("***Invalid String***");
-			edit();
-		}
-		System.out.println("Enter Contact Number");
-		String contactNumber = scanner.nextLine();
-		Pattern contactPattern1 = Pattern.compile("^\\d{10}$");
-		if (!contactPattern1.matcher(contactNumber).matches()) {
-			System.err.println("***Invalid Contact Number***");
-			edit();
-		}
-		System.out.println("Enter Email");
-		String mailId = scanner.nextLine();
-		Pattern mailIdpattern1 = Pattern.compile("^[A-Za-z0-9+_.-]+@(.+)$");
-		if (!mailIdpattern1.matcher(mailId).matches()) {
-			System.err.println("***Invalid Mail Id***");
-			edit();
-		}
+		do {
+			System.out.println("Enter Existing Name");
+			name = scanner.nextLine();
+			flag = nameValidation(name);
+			if(flag == false) {
+				System.err.println("***Invalid String***");
+			}
+		} while(flag != true);
+
+		do {
+			System.out.println("Enter Contact Number(10 Digit Number)");
+			contactNumber = scanner.nextLine();
+			flag = contactNumberValidation(contactNumber);
+			if(flag == false) {
+				System.err.println("***Invalid Contact Number***");
+			}
+		} while(flag != true);
+
+		do {
+			System.out.println("Enter Email");
+			mailId = scanner.nextLine();
+			flag = mailIdValidation(mailId);
+			if(flag == false) {
+				System.err.println("***Invalid Mail Id***");
+			}
+		} while(flag != true);
+		arrayList.add(new ContactFields(contactNumber,name,mailId));
 		try {
 			DatabaseConnection.getInstance().connection = DatabaseConnection.getConnection();
-			String sql = "Update contacttable set contactNumber=?,name=?,mailId=? where id='" + id + "' ";
+			String sql = "Update contactstable set contactNumber=?,name=?,mailId=? where name='" + name + "' ";
 			PreparedStatement statement = DatabaseConnection.getInstance().connection.prepareStatement(sql);
 			statement.setString(1, contactNumber);
 			statement.setString(2, name);
 			statement.setString(3, mailId);
 			statement.executeUpdate();
 		} catch (Exception e1) {
+			System.out.println("Entered Name is Not Found");
 			System.out.println(e1);
 		}
+	}
+	private boolean nameValidation(String name) {
+		Pattern namePattern = Pattern.compile("[a-zA-Z\\s,]+");
+		if (!namePattern.matcher(name).matches()) {
+			return false;
+		}
+		return true;
+	}
+
+	private boolean contactNumberValidation(String contactNumber) {
+		Pattern contactPattern = Pattern.compile("^\\d{10}$");
+		if (!contactPattern.matcher(contactNumber).matches()) {
+			return false;
+		}
+		return true;
+	}
+
+	private boolean mailIdValidation(String mailId) {
+		Pattern mailIdPattern = Pattern.compile("^[A-Za-z0-9+_.-]+@(.+)$");
+		if (!mailIdPattern.matcher(mailId).matches()) {
+			return false;
+		}
+		return true;
 	}
 }
