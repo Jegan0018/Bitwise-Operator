@@ -3,6 +3,8 @@ package ContactApplication;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Scanner;
+import java.util.regex.Pattern;
+
 import Database.DatabaseConnection;
 
 public class SearchContact {
@@ -12,59 +14,49 @@ public class SearchContact {
 
 	private void search() {
 		Scanner scanner = new Scanner(System.in);
+		boolean flag;
+		String name;
 		try {
-			DatabaseConnection.getInstance().connection = DatabaseConnection.getConnection();
-			String sql = "SELECT id,name FROM contacttable Order By name Asc";
-			PreparedStatement statement = DatabaseConnection.getInstance().connection.prepareStatement(sql);
-			ResultSet resultSet = statement.executeQuery();
-			System.out.println("Id \t"+" : "+"\tName");
-			System.out.println("----------------------------");
-			while (resultSet.next()) {
-				System.out.println(resultSet.getString("id")+"\t : \t"+resultSet.getString("name"));
-				System.out.println("----------------------------");
-			}
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-		System.out.println("Press 1 to See Contact Details and 2 to Main Menu");
-		try {
-			int userInput = scanner.nextInt();
-			switch (userInput) {
-			case 1:
-				System.out.println("Please Enter the Id you want to Search");
-				int id = 0;
-				try {
-					id = scanner.nextInt();
-				} catch (Exception e) {
-					System.err.println("***Please Enter Valid Number***");
-					search();
+			do {
+				System.out.println("Enter Name");
+				name = scanner.nextLine();
+				flag = nameValidation(name);
+				if(flag == false) {
+					System.err.println("***Invalid String***");
 				}
-				try {
-					DatabaseConnection.getInstance().connection = DatabaseConnection.getConnection();
-					String sql = "SELECT name,contactNumber,mailId  FROM contacttable where id='" + id + "'";
-					PreparedStatement statement = DatabaseConnection.getInstance().connection.prepareStatement(sql);
-					ResultSet resultSet = statement.executeQuery();
-					while (true) {
-						if (resultSet.next()) {
+			} while(flag != true);
+			try {
+				DatabaseConnection.getInstance().connection = DatabaseConnection.getConnection();
+				String sql = "SELECT name,contactNumber,mailId  FROM contactstable";
+				PreparedStatement statement = DatabaseConnection.getInstance().connection.prepareStatement(sql);
+				ResultSet resultSet = statement.executeQuery();
+				while (true) {
+					if (resultSet.next()) {
+						if(resultSet.getString("name").startsWith(name)) {
 							System.out.println("-------------------------------------");
-							System.out.println(resultSet.getString("name"));
-							System.out.println(resultSet.getString("contactNumber"));
-							System.out.println(resultSet.getString("mailId"));
+							System.out.println("Contact Name :"+resultSet.getString("name"));
+							System.out.println("Contact Number :"+resultSet.getString("contactNumber"));
+							System.out.println("Mail Id :"+resultSet.getString("mailId"));
 							System.out.println("======================================");
-							break;
 						}
+					} else {
+						break;
 					}
-					statement.close();
-				} catch (Exception e) {
-					System.out.println(e);
 				}
-				break;
-			case 2:
-				break;
+				statement.close();
+			} catch (Exception e) {
+				System.out.println(e);
 			}
 		} catch (Exception e) {
 			System.err.println("***Please Enter Valid Number***");
 			search();
 		}
+	}
+	private boolean nameValidation(String name) {
+		Pattern namePattern = Pattern.compile("[a-zA-Z\\s,]+");
+		if (!namePattern.matcher(name).matches()) {
+			return false;
+		}
+		return true;
 	}
 }
